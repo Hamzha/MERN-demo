@@ -1,17 +1,118 @@
-const express = require("express");
+const express = require('express');
+
 const router = express.Router();
-const requireLogin = require('../middleware/requireLogin');
 const requireAdmin = require('../middleware/requireAdmin');
-const user_controller = require('../controllers/UserController')
+const requireLogin = require('../middleware/requireLogin');
+const userController = require('../controllers/UserController');
 
-router.post("/register", user_controller.register);
+/**
+ * @swagger
+ * tags:
+ *   name: Books
+ *   description: The books managing API
+ * /books:
+ *   get:
+ *     summary: Lists all the books
+ *     tags: [Books]
+ *     responses:
+ *       200:
+ *         description: The list of the books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Book'
+ *   post:
+ *     summary: Create a new book
+ *     tags: [Books]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Book'
+ *     responses:
+ *       200:
+ *         description: The created book.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       500:
+ *         description: Some server error
+ * /books/{id}:
+ *   get:
+ *     summary: Get the book by id
+ *     tags: [Books]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The book id
+ *     responses:
+ *       200:
+ *         description: The book response by id
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       404:
+ *         description: The book was not found
+ *   put:
+ *    summary: Update the book by the id
+ *    tags: [Books]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: The book id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Book'
+ *    responses:
+ *      200:
+ *        description: The book was updated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Book'
+ *      404:
+ *        description: The book was not found
+ *      500:
+ *        description: Some error happened
+ *   delete:
+ *     summary: Remove the book by id
+ *     tags: [Books]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The book id
+ *
+ *     responses:
+ *       200:
+ *         description: The book was deleted
+ *       404:
+ *         description: The book was not found
+ */
+router.post('/register', userController.register);
 
-router.post("/login", user_controller.login);
+router.post('/login', userController.login);
 
-router.get("/all-users", requireLogin, requireAdmin, user_controller.get_all_users);
+router.get('/all-users', requireLogin, requireAdmin, userController.get_all_users);
 
-router.get("/user/:userId", requireLogin, user_controller.get_user_by_id);
+router.get('/user/:userId', requireLogin, userController.get_user_by_id);
 
-router.post("/edit/:userId", requireLogin, user_controller.edit_user);
+router.post('/edit/:userId', requireLogin, userController.edit_user);
 
 module.exports = router;

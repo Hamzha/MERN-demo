@@ -1,12 +1,10 @@
-const mongoose = require("mongoose");
-const bycrypt = require("bcrypt");
+const mongoose = require('mongoose');
 
 const numberSchema = new mongoose.Schema({
   number: {
     type: Number,
     required: true,
-  }
+  },
 });
 
-
-module.exports = mongoose.model("Number", numberSchema);
+module.exports = mongoose.model('Number', numberSchema);
